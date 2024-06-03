@@ -104,6 +104,32 @@ function HomePage({ setIsSubmitted }) {
     // Add your captcha refresh logic here
     console.log("Captcha refreshed");
   };
+  const submittingDialogStyles = {
+    "& .MuiDialog-paper": {
+      backgroundColor: "#e0f7fa",
+      color: "#006064",
+      padding: "20px",
+      textAlign:'center'
+    },
+    "& .MuiDialogTitle-root": {
+      fontWeight: "bold",
+      fontFamily:'vazir'
+    },
+  };
+
+  const errorDialogStyles = {
+    "& .MuiDialog-paper": {
+      backgroundColor: "#ffebee",
+      color: "#c62828",
+      padding: "20px",
+      textAlign:'center',
+      
+    },
+    "& .MuiDialogTitle-root": {
+      fontWeight: "bold",
+      fontFamily:'vazir'
+    },
+  };
   return (
     <>
       <Box textAlign="center">
@@ -251,6 +277,7 @@ function HomePage({ setIsSubmitted }) {
         open={isSubmitting}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        sx={submittingDialogStyles}
       >
         <DialogTitle id="alert-dialog-title">
           {"در حال بررسی اطلاعات"}
@@ -267,6 +294,7 @@ function HomePage({ setIsSubmitted }) {
         onClose={() => setSubmitError(false)}
         aria-labelledby="alert-dialog-error-title"
         aria-describedby="alert-dialog-error-description"
+        sx={errorDialogStyles}
       >
         <DialogTitle id="alert-dialog-error-title">
           {"خطا در ارسال اطلاعات"}
@@ -276,11 +304,6 @@ function HomePage({ setIsSubmitted }) {
             مشکلی در ارسال اطلاعات به وجود آمد. لطفاً دوباره تلاش کنید.
           </DialogContentText>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={() => setSubmitError(false)} color="primary" autoFocus>
-            بستن
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </>
   );
