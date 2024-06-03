@@ -20,7 +20,7 @@ function App() {
         bgcolor={"#f2f2f2"}
         height={"auto"}
         width={"100%"}
-        maxWidth={500}
+        maxWidth={550}
         style={style}
       >
         {isSubmitted ? (
