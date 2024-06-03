@@ -98,6 +98,7 @@ function HomePage({ setIsSubmitted }) {
   const helperTextStyles = {
     textAlign: "right",
     marginRight: "10px",
+    fontFamily:'vazir'
   };
   const handleCaptchaRefresh = () => {
     // Add your captcha refresh logic here
