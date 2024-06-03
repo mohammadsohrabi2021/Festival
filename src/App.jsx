@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import FinalMessage from "./components/FinalMessage";
 
 function App() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(true);
 
   const style = {
     backgroundImage: `url(${image})`,
