@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box, FormHelperText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, FormHelperText, Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -29,9 +29,9 @@ const validationSchema = yup.object({
     .required('وارد کردن کد روبه رو الزامی است'),
 });
 
-function HomePage() {
+function HomePage({ setIsSubmitted }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -41,17 +41,19 @@ function HomePage() {
       captcha: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       setIsSubmitting(true);
-    //   axios.post('YOUR_BACKEND_URL', values)
-    //     .then(response => {
-    //     //   setIsSubmitting(false);
-    //       setIsSubmitted(true);
-    //     })
-    //     .catch(error => {
-    //       setIsSubmitting(false);
-    //       console.error('There was an error!', error);
-    //     });
+      axios.post('YOUR_BACKEND_URL', values)
+        .then(response => {
+          setIsSubmitting(false);
+          setIsSubmitted(true);
+          resetForm();
+        })
+        .catch(error => {
+          setIsSubmitting(false);
+          setSubmitError(true);
+          console.error('There was an error!', error);
+        });
     },
   });
 
@@ -79,7 +81,7 @@ function HomePage() {
     textAlign: 'right',
     marginRight: '10px',
   };
-console.log(isSubmitting)
+
   return (
     <>
       <Box textAlign="center" >
@@ -165,6 +167,25 @@ console.log(isSubmitting)
             لطفاً منتظر بمانید، اطلاعات شما در حال بررسی است.
           </DialogContentText>
         </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={submitError}
+        onClose={() => setSubmitError(false)}
+        aria-labelledby="alert-dialog-error-title"
+        aria-describedby="alert-dialog-error-description"
+      >
+        <DialogTitle id="alert-dialog-error-title">{"خطا در ارسال اطلاعات"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-error-description">
+            مشکلی در ارسال اطلاعات به وجود آمد. لطفاً دوباره تلاش کنید.
+          </DialogContentText>
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={() => setSubmitError(false)} color="primary" autoFocus>
+            بستن
+          </Button>
+        </DialogActions> */}
       </Dialog>
     </>
   );
