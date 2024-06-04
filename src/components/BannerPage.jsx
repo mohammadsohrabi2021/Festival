@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import banner from "@assets/image/banner_gift.png";
-import userImage from "@assets/image/imageuser.jpg"; // Import the user image
+import userImage from "@assets/image/imageuser.png"; // Import the user image
 function BannerPage() {
   return (
     <Box textAlign="center">
@@ -11,7 +11,7 @@ function BannerPage() {
       style={{
         width: "92%",
         height: "450px",
-        borderRadius: "0 0 100% 100%",
+        // borderRadius: "0 0 100% 100%",
       }}
     />
 

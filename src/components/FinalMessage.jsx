@@ -1,5 +1,5 @@
 import React from "react";
-import userImage from "@assets/image/imageuser.jpg";
+import userImage from "@assets/image/imageuser.png";
 import { Box, Grid, Typography } from "@mui/material";
 import banner from "@assets/image/banner_gift.png";
 function FinalMessage({ lotteryId }) {
@@ -8,7 +8,7 @@ function FinalMessage({ lotteryId }) {
       <img
         src={userImage}
         alt="Event"
-        style={{ width: "92%", height: "450px", borderRadius: "0 0 100% 100%" }}
+        style={{ width: "92%", height: "450px" }}
       />
       <Grid display={"flex"} alignItems={"center"} flexDirection={"column"}>
         <Box my={2}>
