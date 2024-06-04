@@ -54,6 +54,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
   const [captcha, setCaptcha] = useState(null);
+  const [errorMeasage, setErrorMeasage] = useState(null);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const fetchCaptchaData = async () => {
@@ -92,6 +93,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
         .catch((error) => {
           setIsSubmitting(false);
           setSubmitError(true);
+          setErrorMeasage(error?.response?.data?.detail)
           console.error("There was an error!", error);
         });
     },
@@ -208,6 +210,7 @@ console.log(formik.touched,'formik.touched')
         submitError={submitError}
         isSubmitting={isSubmitting}
         setSubmitError={setSubmitError}
+        errorMeasage={errorMeasage}
       />
     </>
   );
