@@ -10,7 +10,7 @@ function BannerPage() {
       alt="Event"
       style={{
         width: "92%",
-        height: "450px",
+        height:{xs:'max-content',sm:"400px"}
         // borderRadius: "0 0 100% 100%",
       }}
     />

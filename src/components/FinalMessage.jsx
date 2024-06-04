@@ -8,7 +8,7 @@ function FinalMessage({ lotteryId }) {
       <img
         src={userImage}
         alt="Event"
-        style={{ width: "92%", height: "450px" }}
+        style={{ width: "92%", height:{xs:'max-content',sm:"400px"}}}
       />
       <Grid display={"flex"} alignItems={"center"} flexDirection={"column"}>
         <Box my={2}>
