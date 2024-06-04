@@ -7,7 +7,7 @@ import FinalMessage from "./components/FinalMessage";
 function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const[lotteryId,setlLotteryId]=useState(null)
-console.log(lotteryId?.data?.lottery_id,'lotteryId')
+console.log(lotteryId?.lottery_id,'lotteryId')
   const style = {
     backgroundImage: `url(${image})`,
     backgroundPosition: "center",
@@ -27,7 +27,7 @@ console.log(lotteryId?.data?.lottery_id,'lotteryId')
         style={style}
       >
         {isSubmitted ? (
-          <FinalMessage lotteryId={lotteryId?.data?.lottery_id} />
+          <FinalMessage lotteryId={lotteryId?.lottery_id} />
         ) : (
           <HomePage setlLotteryId={setlLotteryId} setIsSubmitted={setIsSubmitted} />
         )}
