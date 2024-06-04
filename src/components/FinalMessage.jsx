@@ -1,8 +1,8 @@
 import React from "react";
 import userImage from "@assets/image/imageuser.jpg";
 import { Box, Grid, Typography } from "@mui/material";
-
-function FinalMessage() {
+import banner from "@assets/image/banner_gift.png";
+function FinalMessage({ lotteryId }) {
   return (
     <Box textAlign="center">
       <img
@@ -11,15 +11,13 @@ function FinalMessage() {
         style={{ width: "92%", height: "450px", borderRadius: "0 0 100% 100%" }}
       />
       <Grid display={"flex"} alignItems={"center"} flexDirection={"column"}>
-        <Typography
-          variant="h4"
-          py={5}
-          fontFamily={"vazir"}
-          fontWeight={"bolder"}
-          color={"#A32098"}
-        >
-          رویداد بزرگ نیکینا و نگین
-        </Typography>
+        <Box my={2}>
+          <img
+            src={banner}
+            style={{ width: "70%", height: "max-content" }}
+            alt=""
+          />
+        </Box>
         <Typography
           fontFamily={"vazir"}
           fontSize={"16px"}
@@ -37,7 +35,10 @@ function FinalMessage() {
           fontWeight={"bold"}
           color={"#444"}
           lineHeight={"28px"}
-          textAlign={"justify"}
+          // textAlign={"justify"}
+          display={"flex"}
+          flexWrap={"wrap"}
+          // px={{xs:'0 100px'}}
         >
           مطمئن شو که همه کسانی که من فالو کردم را فالو داشته باشی
         </Typography>
@@ -83,7 +84,7 @@ function FinalMessage() {
         width={"max-content"}
         margin={"auto"}
       >
-        123456
+        {lotteryId}
       </Box>
     </Box>
   );
