@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import React from 'react'
 
-function DialogMessage({submitError,isSubmitting,setSubmitError}) {
+function DialogMessage({submitError,isSubmitting,setSubmitError,errorMeasage}) {
     const submittingDialogStyles = {
         "& .MuiDialog-paper": {
           backgroundColor: "#e0f7fa",
@@ -55,9 +55,13 @@ function DialogMessage({submitError,isSubmitting,setSubmitError}) {
           {"خطا در ارسال اطلاعات"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-error-description">
+          <DialogContentText id="alert-dialog-error-description"  fontFamily={'vazir'} color={'red'}>
             مشکلی در ارسال اطلاعات به وجود آمد. لطفاً دوباره تلاش کنید.
           </DialogContentText>
+          <DialogContentText id="alert-dialog-error-description" fontFamily={'vazir'}>
+          {errorMeasage}
+          </DialogContentText>
+          
         </DialogContent>
       </Dialog>
    </>
