@@ -18,7 +18,7 @@ function BannerPage() {
     <Box my={2}>
       <img
         src={banner}
-        style={{ width: "70%", height: "max-content" }}
+        style={{ width: "90%", height: "max-content" }}
         alt=""
       />
     </Box>
