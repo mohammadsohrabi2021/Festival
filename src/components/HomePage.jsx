@@ -33,6 +33,12 @@ const fetchCaptcha = async () => {
   return response.data;
 };
 
+// Function to check if a string contains Persian characters
+const containsPersianChars = (str) => {
+  const persianRegex = /[\u0600-\u06FF]/;
+  return persianRegex.test(str);
+};
+
 const validationSchema = yup.object({
   fullname: yup
     .string("نام و نام خانوادگی خود را وارد کنید")
@@ -44,7 +50,12 @@ const validationSchema = yup.object({
     .required("وارد کردن شماره همراه الزامی است"),
   instagram_id: yup
     .string("آی دی اینستاگرام خود را وارد کنید")
-    .required("وارد کردن آی دی اینستاگرام الزامی است"),
+    .required("وارد کردن آی دی اینستاگرام الزامی است")
+    .test(
+      "no-persian",
+      "لطفا کیبورد خود را انگلیسی کنید",
+      (value) => !containsPersianChars(value)
+    ),
   captcha_code: yup
     .string("کد روبه رو را وارد کنید")
     .required("وارد کردن کد روبه رو الزامی است"),
@@ -55,7 +66,6 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
   const [submitError, setSubmitError] = useState(false);
   const [captcha, setCaptcha] = useState(null);
   const [errorMeasage, setErrorMeasage] = useState(null);
-
 
   const fetchCaptchaData = async () => {
     const captchaData = await fetchCaptcha();
@@ -77,30 +87,55 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
       setIsSubmitting(true);
-      console.log({ ...values, captcha_id: captcha?.captcha_id });
       axios
         .post(`${BASE_URL}/form/submit`, {
           ...values,
           captcha_id: captcha?.captcha_id,
-        }) // Include captcha_id in the submission if needed
+        })
         .then((response) => {
           setIsSubmitting(false);
           setIsSubmitted(true);
-          setlLotteryId(response);
+          setlLotteryId(response.data);
           resetForm();
           fetchCaptchaData(); // Fetch new captcha after successful submission
         })
         .catch((error) => {
           setIsSubmitting(false);
           setSubmitError(true);
-          setErrorMeasage(error?.response?.data?.detail)
+          setErrorMeasage(error?.response?.data?.detail);
           console.error("There was an error!", error);
         });
     },
   });
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "phone_number" || name === "captcha_code") {
+      // Only allow digits
+      const newValue = convertPersianToEnglish(value);
+      if (/^\d*$/.test(newValue)) {
+        formik.setFieldValue(name, newValue);
+        formik.setFieldError(name, "");
+      } else {
+        formik.setFieldTouched(name, true);
+        formik.setFieldError(name, "فقط اعداد مجاز هستند");
+      }
+    } else if (name === "instagram_id") {
+      // Only allow English letters, digits, and underscores
+      if (/^[a-zA-Z0-9_]*$/.test(value)) {
+        formik.setFieldValue(name, value);
+        formik.setFieldError(name, "");
+      } else {
+        formik.setFieldTouched(name, true);
+        formik.setFieldError(name, "لطفا کیبورد خود را انگلیسی کنید");
+      }
+    } else {
+      formik.setFieldValue(name, value);
+    }
+  };
+
   const textFieldStyles = {
-    // marginBottom: "15px",
     backgroundColor: "#f7f7f7",
     borderRadius: "5px",
     "& .MuiOutlinedInput-root": {
@@ -125,7 +160,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
     marginRight: "10px",
     fontFamily: "vazir",
   };
-console.log(formik.touched,'formik.touched')
+
   return (
     <>
       <BannerPage />
@@ -138,8 +173,8 @@ console.log(formik.touched,'formik.touched')
             fullWidth
             margin="normal"
             name={item?.name}
-            value={formik.values.item?.name}
-            onChange={formik.handleChange}
+            value={formik.values[item?.name]}
+            onChange={handleInputChange}
             error={
               formik.touched[item?.name] && Boolean(formik.errors[item?.name])
             }
@@ -162,7 +197,7 @@ console.log(formik.touched,'formik.touched')
             margin="normal"
             name="captcha_code"
             value={formik.values.captcha_code}
-            onChange={formik.handleChange}
+            onChange={handleInputChange}
             error={
               formik.touched.captcha_code && Boolean(formik.errors.captcha_code)
             }
@@ -197,7 +232,7 @@ console.log(formik.touched,'formik.touched')
             sx={{
               backgroundColor: "#a31299",
               gap: "10px",
-              fontFamily: " vazir",
+              fontFamily: "vazir",
             }}
             fullWidth
           >
@@ -217,3 +252,4 @@ console.log(formik.touched,'formik.touched')
 }
 
 export default HomePage;
+
