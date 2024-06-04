@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { Lock, Refresh } from "@mui/icons-material";
-
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 import SendIcon from "@mui/icons-material/Send";
 import initialFields from "../data/initialFieldsInputs";
 import DialogMessage from "./DialogMessage";
@@ -29,7 +29,7 @@ const convertPersianToEnglish = (str) => {
 
 // Function to generate random captcha code
 const fetchCaptcha = async () => {
-  const response = await axios.get("http://api.mantrayou.com:5050/gen/captcha");
+  const response = await axios.get(`${BASE_URL}/gen/captcha`);
   return response.data;
 };
 
@@ -55,7 +55,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
   const [submitError, setSubmitError] = useState(false);
   const [captcha, setCaptcha] = useState(null);
   const [errorMeasage, setErrorMeasage] = useState(null);
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
   const fetchCaptchaData = async () => {
     const captchaData = await fetchCaptcha();
