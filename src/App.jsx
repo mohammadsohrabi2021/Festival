@@ -14,13 +14,11 @@ console.log(lotteryId?.lottery_id,'lotteryId')
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
   };
-  // #c9f2f1
-  // #e9ceeb
-  //#b9bfed
+
   return (
     <Grid direction={"rtl"} display={"flex"} justifyContent={"center"}>
       <Grid
-        bgcolor={"#d3d6f5"}
+        bgcolor={"#f2f2f2"}
         height={"auto"}
         width={"100%"}
         maxWidth={550}
