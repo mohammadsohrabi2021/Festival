@@ -1,34 +1,45 @@
-import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import React from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import React from "react";
 
-function DialogMessage({submitError,isSubmitting,setSubmitError,errorMeasage}) {
-    const submittingDialogStyles = {
-        "& .MuiDialog-paper": {
-          backgroundColor: "#e0f7fa",
-          color: "#006064",
-          padding: "20px",
-          textAlign: "center",
-        },
-        "& .MuiDialogTitle-root": {
-          fontWeight: "bold",
-          fontFamily: "vazir",
-        },
-      };
-      const errorDialogStyles = {
-        "& .MuiDialog-paper": {
-          backgroundColor: "#ffebee",
-          color: "#c62828",
-          padding: "20px",
-          textAlign: "center",
-        },
-        "& .MuiDialogTitle-root": {
-          fontWeight: "bold",
-          fontFamily: "vazir",
-        },
-      };    
+function DialogMessage({
+  submitError,
+  isSubmitting,
+  setSubmitError,
+  errorMeasage,
+}) {
+  const submittingDialogStyles = {
+    "& .MuiDialog-paper": {
+      backgroundColor: "#e0f7fa",
+      color: "#006064",
+      padding: "20px",
+      textAlign: "center",
+    },
+    "& .MuiDialogTitle-root": {
+      fontWeight: "bold",
+      fontFamily: "vazir",
+    },
+  };
+  const errorDialogStyles = {
+    "& .MuiDialog-paper": {
+      backgroundColor: "#ffebee",
+      color: "#c62828",
+      padding: "20px",
+      textAlign: "center",
+    },
+    "& .MuiDialogTitle-root": {
+      fontWeight: "bold",
+      fontFamily: "vazir",
+    },
+  };
+
   return (
-   <>
-    <Dialog
+    <>
+      <Dialog
         open={isSubmitting}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -55,17 +66,41 @@ function DialogMessage({submitError,isSubmitting,setSubmitError,errorMeasage}) {
           {"خطا در ارسال اطلاعات"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-error-description"  fontFamily={'vazir'} color={'red'}>
+          <DialogContentText
+            id="alert-dialog-error-description"
+            fontFamily={"vazir"}
+            color={"red"}
+          >
             مشکلی در ارسال اطلاعات به وجود آمد. لطفاً دوباره تلاش کنید.
           </DialogContentText>
-          <DialogContentText id="alert-dialog-error-description" fontFamily={'vazir'}>
-          {errorMeasage}
+          <DialogContentText
+            id="alert-dialog-error-description"
+            fontFamily={"vazir"}
+            mt={2}
+          >
+            {errorMeasage === "invalid phone number format" ? (
+              <>فرمت اشتباه شماره موبایل</>
+            ) : (
+              <>
+                {errorMeasage === "wrong captcha" ? (
+                  <>کد کپچا غلط وارد شده</>
+                ) : (
+                  <>
+                    {errorMeasage === "phone number is already registered" ? (
+                      <>این شماره تماس قبلا ثبت شده</>
+                    ) : (
+                      <>این نام کاربری اینستاگرام قبلا ثبت شده</>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+            {/* {errorMeasage} */}
           </DialogContentText>
-          
         </DialogContent>
       </Dialog>
-   </>
-  )
+    </>
+  );
 }
 
-export default DialogMessage
+export default DialogMessage;
