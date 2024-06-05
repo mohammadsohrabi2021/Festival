@@ -5,6 +5,8 @@ import {
   Box,
   InputAdornment,
   IconButton,
+  Typography,
+  Grid,
 } from "@mui/material";
 
 import { useFormik } from "formik";
@@ -56,7 +58,8 @@ const validationSchema = yup.object({
       "لطفا کیبورد خود را انگلیسی کنید",
       (value) => !containsPersianChars(value)
     )
-    .matches(/^[a-zA-Z0-9._-]*$/, "لطفا کیبورد خود را انگلیسی کنید"), // Allow English letters, digits, underscores, and dots
+    .matches(/^[a-zA-Z0-9._-]*$/, "لطفا کیبورد خود را انگلیسی کنید") // Allow English letters, digits, underscores, and dots
+    .max(30, "آی دی اینستاگرام نباید بیشتر از ۳۰ کاراکتر باشد"),
   captcha_code: yup
     .string("کد روبه رو را وارد کنید")
     .required("وارد کردن کد روبه رو الزامی است"),
@@ -67,6 +70,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
   const [submitError, setSubmitError] = useState(false);
   const [captcha, setCaptcha] = useState(null);
   const [errorMeasage, setErrorMeasage] = useState(null);
+  const [charCount, setCharCount] = useState(0);
 
   const fetchCaptchaData = async () => {
     const captchaData = await fetchCaptcha();
@@ -123,10 +127,17 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
         formik.setFieldError(name, "فقط اعداد مجاز هستند");
       }
     } else if (name === "instagram_id") {
-      // Only allow English letters, digits, underscores, and dots
-      if (/^[a-zA-Z0-9._-]*$/.test(value)) {
+      // Only allow English letters, digits, underscores, and dots and limit to 30 characters
+      if (/^[a-zA-Z0-9._-]*$/.test(value) && value.length <= 30) {
         formik.setFieldValue(name, value);
         formik.setFieldError(name, "");
+        setCharCount(value.length);
+      } else if (value.length > 30) {
+        formik.setFieldTouched(name, true);
+        formik.setFieldError(
+          name,
+          "آی دی اینستاگرام نباید بیشتر از ۳۰ کاراکتر باشد"
+        );
       } else {
         formik.setFieldTouched(name, true);
         formik.setFieldError(name, "لطفا کیبورد خود را انگلیسی کنید");
@@ -167,30 +178,43 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
       <BannerPage />
       <form onSubmit={formik.handleSubmit} style={{ padding: "0px 20px" }}>
         {initialFields.map((item) => (
-          <TextField
-            key={item?.id}
-            placeholder={item?.placeholder}
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            name={item?.name}
-            value={formik.values[item?.name]}
-            onChange={handleInputChange}
-            error={
-              formik.touched[item?.name] && Boolean(formik.errors[item?.name])
-            }
-            helperText={formik.touched[item?.name] && formik.errors[item?.name]}
-            FormHelperTextProps={{ style: helperTextStyles }}
-            sx={textFieldStyles}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">{item?.icon}</InputAdornment>
-              ),
-            }}
-          />
+          <Box key={item?.id} >
+            <TextField
+              placeholder={item?.placeholder}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name={item?.name}
+              value={formik.values[item?.name]}
+              onChange={handleInputChange}
+              error={
+                formik.touched[item?.name] && Boolean(formik.errors[item?.name])
+              }
+              helperText={
+                formik.touched[item?.name] && formik.errors[item?.name]
+              }
+              FormHelperTextProps={{ style: helperTextStyles }}
+              sx={textFieldStyles}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">{item?.icon}</InputAdornment>
+                ),
+              }}
+            />
+            {item?.name === 'instagram_id' && (
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                align="left"
+                // style={{ marginTop: "5px" }}
+              >
+                {charCount}/30
+              </Typography>
+            )}
+          </Box>
         ))}
 
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" mb={2}>
           <TextField
             placeholder="کد روبه رو"
             variant="outlined"
@@ -219,13 +243,18 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
                     <Refresh sx={{ color: "#ddd" }} />
                   </IconButton>
                   {captcha && (
-                    <img src={`${BASE_URL}/${captcha?.link}`} style={{height:'50px'}} alt="captcha" />
+                    <img
+                      src={`${BASE_URL}/${captcha?.link}`}
+                      style={{ height: "50px" }}
+                      alt="captcha"
+                    />
                   )}
                 </InputAdornment>
               ),
             }}
           />
         </Box>
+
         <Box mb={4}>
           <Button
             type="submit"
@@ -253,4 +282,3 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
 }
 
 export default HomePage;
-
