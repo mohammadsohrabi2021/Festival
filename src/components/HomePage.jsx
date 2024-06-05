@@ -6,7 +6,6 @@ import {
   InputAdornment,
   IconButton,
   Typography,
-  Grid,
 } from "@mui/material";
 
 import { useFormik } from "formik";
@@ -178,7 +177,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
       <BannerPage />
       <form onSubmit={formik.handleSubmit} style={{ padding: "0px 20px" }}>
         {initialFields.map((item) => (
-          <Box key={item?.id} >
+          <Box key={item?.id} mb={2}>
             <TextField
               placeholder={item?.placeholder}
               variant="outlined"
@@ -195,6 +194,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
               }
               FormHelperTextProps={{ style: helperTextStyles }}
               sx={textFieldStyles}
+              inputProps={item?.name === "phone_number" ? { maxLength: 11 } : {}}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">{item?.icon}</InputAdornment>
@@ -206,7 +206,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
                 variant="body2"
                 color="textSecondary"
                 align="left"
-                // style={{ marginTop: "5px" }}
+                style={{ marginTop: "5px" }}
               >
                 {charCount}/30
               </Typography>
