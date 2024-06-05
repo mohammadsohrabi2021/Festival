@@ -14,7 +14,7 @@ const initialFields = [
   },
   {
     id: 2,
-    placeholder: "شماره همراه",
+    placeholder: "شماره همراه 09121233231",
     name: "phone_number",
     icon: <Phone sx={{ color: "#ddd" }} />,
   },
