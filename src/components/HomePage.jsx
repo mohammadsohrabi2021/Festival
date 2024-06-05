@@ -55,7 +55,8 @@ const validationSchema = yup.object({
       "no-persian",
       "لطفا کیبورد خود را انگلیسی کنید",
       (value) => !containsPersianChars(value)
-    ),
+    )
+    .matches(/^[a-zA-Z0-9._-]*$/, "لطفا کیبورد خود را انگلیسی کنید"), // Allow English letters, digits, underscores, and dots
   captcha_code: yup
     .string("کد روبه رو را وارد کنید")
     .required("وارد کردن کد روبه رو الزامی است"),
@@ -122,8 +123,8 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
         formik.setFieldError(name, "فقط اعداد مجاز هستند");
       }
     } else if (name === "instagram_id") {
-      // Only allow English letters, digits, and underscores
-      if (/^[a-zA-Z0-9_]*$/.test(value)) {
+      // Only allow English letters, digits, underscores, and dots
+      if (/^[a-zA-Z0-9._-]*$/.test(value)) {
         formik.setFieldValue(name, value);
         formik.setFieldError(name, "");
       } else {
