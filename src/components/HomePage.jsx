@@ -218,7 +218,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
                     <Refresh sx={{ color: "#ddd" }} />
                   </IconButton>
                   {captcha && (
-                    <img src={`${BASE_URL}/${captcha?.link}`} alt="captcha" />
+                    <img src={`${BASE_URL}/${captcha?.link}`} style={{height:'50px'}} alt="captcha" />
                   )}
                 </InputAdornment>
               ),
