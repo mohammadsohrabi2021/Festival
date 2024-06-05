@@ -177,7 +177,7 @@ function HomePage({ setIsSubmitted, setlLotteryId }) {
       <BannerPage />
       <form onSubmit={formik.handleSubmit} style={{ padding: "0px 20px" }}>
         {initialFields.map((item) => (
-          <Box key={item?.id} mb={2}>
+          <Box key={item?.id} >
             <TextField
               placeholder={item?.placeholder}
               variant="outlined"
